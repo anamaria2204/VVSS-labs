@@ -19,16 +19,21 @@ public class FileProductRepository
 
     @Override
     protected Product extractEntity(String line) {
+        // C04: handle corrupted or incomplete lines gracefully
+        try {
+            String[] elems = line.split(",");
 
-        String[] elems = line.split(",");
+            int id = Integer.parseInt(elems[0]);
+            String name = elems[1];
+            double price = Double.parseDouble(elems[2]);
+            CategorieBautura categorie = CategorieBautura.valueOf(elems[3]);
+            TipBautura tip = TipBautura.valueOf(elems[4]);
 
-        int id = Integer.parseInt(elems[0]);
-        String name = elems[1];
-        double price = Double.parseDouble(elems[2]);
-        CategorieBautura categorie = CategorieBautura.valueOf(elems[3]);
-        TipBautura tip = TipBautura.valueOf(elems[4]);
-
-        return new Product(id, name, price, categorie, tip);
+            return new Product(id, name, price, categorie, tip);
+        } catch (Exception e) {
+            System.err.println("Linie invalida in fisierul de produse, ignorata: " + line);
+            return null;
+        }
     }
 
     @Override

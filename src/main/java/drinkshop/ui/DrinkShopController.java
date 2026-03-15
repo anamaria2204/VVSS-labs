@@ -53,10 +53,15 @@ public class DrinkShopController {
     private ObservableList<IngredientReteta> newRetetaList = FXCollections.observableArrayList();
     private ObservableList<OrderItem> currentOrderItems = FXCollections.observableArrayList();
 
-    private Order currentOrder = new Order(1);
+    private Order currentOrder;
 
     public void setService(DrinkShopService service) {
         this.service = service;
+        int nextId = service.getAllOrders().stream()
+                .mapToInt(o -> o.getId())
+                .max()
+                .orElse(0) + 1;
+        currentOrder = new Order(nextId);
         initData();
     }
 
@@ -111,7 +116,7 @@ public class DrinkShopController {
     // ---------- PRODUCT ----------
     @FXML
     private void onAddProduct() {
-        Reteta r=retetaTable.getSelectionModel().getSelectedItem();
+        Reteta r = retetaTable.getSelectionModel().getSelectedItem();
 
         if (r == null) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -119,17 +124,29 @@ public class DrinkShopController {
             alert.setHeaderText("Selectati o reteta pentru care adugati un produs");
             alert.showAndWait();
             return;
-        }else
-        if (service.getAllProducts().stream().filter(p->p.getId()==r.getId()).toList().size()>0) {
+        }
+        if (service.getAllProducts().stream().filter(p -> p.getId() == r.getId()).toList().size() > 0) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error");
             alert.setHeaderText("Exista un produs cu reteta adaugata.");
             alert.showAndWait();
             return;
         }
-        Product p = new Product(r.getId(),
-                txtProdName.getText(),
-                Double.parseDouble(txtProdPrice.getText()),
+        // C01: validate name is not empty
+        String name = txtProdName.getText();
+        if (name == null || name.trim().isEmpty()) {
+            showError("Numele produsului nu poate fi gol.");
+            return;
+        }
+        // C06: parse price with try-catch to avoid NumberFormatException
+        double price;
+        try {
+            price = Double.parseDouble(txtProdPrice.getText());
+        } catch (NumberFormatException e) {
+            showError("Pretul introdus nu este valid. Introduceti un numar.");
+            return;
+        }
+        Product p = new Product(r.getId(), name, price,
                 comboProdCategorie.getValue(),
                 comboProdTip.getValue());
         service.addProduct(p);
@@ -140,8 +157,21 @@ public class DrinkShopController {
     private void onUpdateProduct() {
         Product selected = productTable.getSelectionModel().getSelectedItem();
         if (selected == null) return;
-        service.updateProduct(selected.getId(), txtProdName.getText(),
-                Double.parseDouble(txtProdPrice.getText()),
+        // C05: validate name is not empty
+        String name = txtProdName.getText();
+        if (name == null || name.trim().isEmpty()) {
+            showError("Numele produsului nu poate fi gol.");
+            return;
+        }
+        // C06: parse price with try-catch to avoid NumberFormatException
+        double price;
+        try {
+            price = Double.parseDouble(txtProdPrice.getText());
+        } catch (NumberFormatException e) {
+            showError("Pretul introdus nu este valid. Introduceti un numar.");
+            return;
+        }
+        service.updateProduct(selected.getId(), name, price,
                 comboProdCategorie.getValue(), comboProdTip.getValue());
         initData();
     }
@@ -225,6 +255,16 @@ public class DrinkShopController {
         currentOrder.getItems().clear();
         currentOrder.getItems().addAll(currentOrderItems);
         currentOrder.computeTotalPrice();
+
+        // C05: consume stock for each ordered product
+        for (OrderItem item : currentOrderItems) {
+            try {
+                service.comandaProdus(item.getProduct());
+            } catch (IllegalStateException e) {
+                showError("Stoc insuficient pentru: " + item.getProduct().getNume());
+                return;
+            }
+        }
 
         service.addOrder(currentOrder);
         txtReceipt.setText(service.generateReceipt(currentOrder));
