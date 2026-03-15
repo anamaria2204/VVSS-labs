@@ -57,7 +57,6 @@ public class DrinkShopController {
 
     public void setService(DrinkShopService service) {
         this.service = service;
-        // C07: derive next order ID from existing orders to avoid duplicates on restart
         int nextId = service.getAllOrders().stream()
                 .mapToInt(o -> o.getId())
                 .max()
@@ -133,13 +132,13 @@ public class DrinkShopController {
             alert.showAndWait();
             return;
         }
-        // C05: validate name is not empty
+        // C01: validate name is not empty
         String name = txtProdName.getText();
         if (name == null || name.trim().isEmpty()) {
             showError("Numele produsului nu poate fi gol.");
             return;
         }
-        // C03: parse price with try-catch to avoid NumberFormatException
+        // C06: parse price with try-catch to avoid NumberFormatException
         double price;
         try {
             price = Double.parseDouble(txtProdPrice.getText());
@@ -164,7 +163,7 @@ public class DrinkShopController {
             showError("Numele produsului nu poate fi gol.");
             return;
         }
-        // C03: parse price with try-catch to avoid NumberFormatException
+        // C06: parse price with try-catch to avoid NumberFormatException
         double price;
         try {
             price = Double.parseDouble(txtProdPrice.getText());
@@ -257,7 +256,7 @@ public class DrinkShopController {
         currentOrder.getItems().addAll(currentOrderItems);
         currentOrder.computeTotalPrice();
 
-        // C06: consume stock for each ordered product
+        // C05: consume stock for each ordered product
         for (OrderItem item : currentOrderItems) {
             try {
                 service.comandaProdus(item.getProduct());

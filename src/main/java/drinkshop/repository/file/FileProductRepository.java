@@ -19,7 +19,7 @@ public class FileProductRepository
 
     @Override
     protected Product extractEntity(String line) {
-        // C02: handle corrupted or incomplete lines gracefully
+        // C04: handle corrupted or incomplete lines gracefully
         try {
             String[] elems = line.split(",");
 
