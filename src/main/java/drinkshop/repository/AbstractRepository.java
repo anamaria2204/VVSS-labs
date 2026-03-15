@@ -5,39 +5,36 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.StreamSupport;
 
-public abstract class AbstractRepository<ID, E>
-        implements Repository<ID, E> {
+public abstract class AbstractRepository<ID, T>
+        implements Repository<ID, T> {
 
-    protected Map<ID, E> entities = new HashMap<>();
+    protected Map<ID, T> entities = new HashMap<>();
 
     @Override
-    public E findOne(ID id) {
+    public T findOne(ID id) {
         return entities.get(id);
     }
 
     @Override
-    public List<E> findAll() {
-        return (List<E>)StreamSupport.stream(entities.values().spliterator(), false).toList();
-//                    .collect(Collectors.toList());
-        // return (List<E>) entities.values();
+    public List<T> findAll() {
+        return StreamSupport.stream(entities.values().spliterator(), false).toList();
     }
 
     @Override
-    public E save(E entity) {
+    public T save(T entity) {
         entities.put(getId(entity), entity);
         return entity;
     }
 
     @Override
-    public E delete(ID id) {
+    public T delete(ID id) {
         return entities.remove(id);
     }
 
     @Override
-    public E update(E entity) {
-        entities.put(getId(entity), entity);
-        return entity;
+    public T update(T entity) {
+        return save(entity);
     }
 
-    protected abstract ID getId(E entity);
+    protected abstract ID getId(T entity);
 }
