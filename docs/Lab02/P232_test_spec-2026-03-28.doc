@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><title>testspec Proiect232 - orir3584_BBT</title>
+<link type="text/css" rel="stylesheet" href="https://www.scs.ubbcluj.ro/testlink/gui/themes/default/css/tl_documents.css" />
+<style type="text/css" media="print">.notprintable { display:none;}</style>
+</head>
+<body>
+<div>
+<div style="float:right;">TestLink Community [configure $tlCfg-&gt;document_generator-&gt;company_name]</div>
+<div>&nbsp;</div><hr />
+<p style="text-align: center;"><img alt="TestLink logo" title="configure using $tlCfg->document_generator->company_logo"  width= height= src="https://www.scs.ubbcluj.ro/testlink/gui/themes/default/images/tl-logo-transparent-25.png" /></p></div>
+<div class="doc_title"><p>Test Specification</p></div>
+<div class="doc_title" style="text-align:left;margin: auto;"><p>Test Project: Proiect232<br/>Test Suite: Proiect232 - orir3584_BBT</p></div>
+<div class="summary"><p id="printedby">Printed by TestLink on 28/03/2026</p></div>
+<div class="pagefooter" id="copyright">2012 &copy; TestLink Community</div>
+<h1 class="general" style="page-break-before: always">Table Of Contents</h1><div class="toc"><p style="padding-left: 20px;"><b><a href="#toc_1">1.orir3584_BBT</a></b></p>
+<p style="padding-left: 45px;"><a href="#toc_tc28875">P232-5: AddProductTestCaseECP1</a></p><p style="padding-left: 45px;"><a href="#toc_tc28877">P232-6: AddProductTestCaseECP2</a></p><p style="padding-left: 45px;"><a href="#toc_tc28880">P232-7: AddProductTestCaseBVA1</a></p><p style="padding-left: 45px;"><a href="#toc_tc28882">P232-8: AddProductTestCaseBVA2</a></p></div><h1 class="doclevel" >Scope</h1>
+<div class="txtlevel"><p>Proiect de testare pentru studentii din grupa 232.</p></div>
+ <br/><a name='toc_1'></a>
+<h1 class='doclevel'>1.Test Suite : orir3584_BBT</h1>
+<div><p>Se testeaza functionalitatea de adaugare a unui produs nou in stocul magazinului</p>
+</div><a name="toc_tc28875"></a><p>&nbsp;</p><div> <table class="tc" width="90%" ><tr><th colspan="4">Test Case P232-5: AddProductTestCaseECP1&nbsp;<span style="font-size: 80%;">[Version  : 1]</span></th></tr>
+<tr><td width="20%" valign="top"><span class="label">Author:</span></td><td colspan="3">orir3584</td></tr>
+<tr><td colspan="4"><span class="label">Summary:</span><br /><p>[ECP]&nbsp;Test Case 1: Adaugarea cu succes a unui produs -&gt; clasa valida<br />
+<br />
+exemplu valid: (101, &quot;Spanish Latte&quot;, 12.75, SPECIAL_COFFEE, PLANT_BASED)<br />
+<br />
+Rezultat asteptat -&gt; Succes (Produsul este adaugat cu succes in stoc)<br />
+<br />
+<br />
+&nbsp;</p>
+</td></tr><tr><td colspan="4"><span class="label">Preconditions:</span><br /><p>ID -&gt; numar intreg, 1-9999<br />
+Nume -&gt; string, 3-100 caractere<br />
+Pret -&gt; numar real, 5.0-45.0&nbsp;<br />
+Categore -&gt; o categorie din CategorieBautura = {&nbsp;CLASSIC_COFFEE, MILK_COFFEE, SPECIAL_COFFEE, ICED_COFFEE, TEA, BUBBLE_TEA, JUICE, SMOOTHIE, ALL }<br />
+Tip -&gt; un tip din TipBautura = {&nbsp;BASIC, DAIRY, LACTOSE_FREE, WATER_BASED, PLANT_BASED, POWDER, ALL }</p>
+</td></tr><tr><td width="20%" valign="top"><span class="label">Execution type:</span></td><td colspan="3">Automated</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Estimated exec. duration (min):</span></td><td colspan="3"></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Importance:</span></td><td colspan="3">Medium</td></tr>
+<tr><td colspan="4"></td></tr><tr><td > name of the autotest class:</td><td  colspan = "3" >MyDrinkShop.Product.AddProductTest1</td></tr>
+<tr><td > name of the test method:</td><td  colspan = "3" >MyDrinkShop.Product.AddProductTest#validECPTest</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Requirements</span><td colspan="3">orir3584_F01:  AdaugareProdus [Version : 1]<br /></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Keywords:</span></td><td colspan="3">&nbsp;None<br/></td></tr>
+</table>
+</div>
+<a name="toc_tc28877"></a><p>&nbsp;</p><div> <table class="tc" width="90%" ><tr><th colspan="4">Test Case P232-6: AddProductTestCaseECP2&nbsp;<span style="font-size: 80%;">[Version  : 1]</span></th></tr>
+<tr><td width="20%" valign="top"><span class="label">Author:</span></td><td colspan="3">orir3584</td></tr>
+<tr><td colspan="4"><span class="label">Summary:</span><br /><p>[ECP] Test Case 2: Adaugarea invalida a unui produs -&gt; clasa invalida<br />
+<br />
+exemplu invalid: (102, &quot;Matcha&quot;, -50.00, SPECIAL_COFFEE, DIARY)<br />
+<br />
+Rezultat asteptat -&gt; Eroare (pret invalid, produsul nu este adaugat in stoc)</p>
+</td></tr><tr><td colspan="4"><span class="label">Preconditions:</span><br /><p>Datele de intrare a atributelor unui produs nu sunt valabile / conforme domeniului lor de definitie</p>
+</td></tr><tr><td width="20%" valign="top"><span class="label">Execution type:</span></td><td colspan="3">Automated</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Estimated exec. duration (min):</span></td><td colspan="3"></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Importance:</span></td><td colspan="3">Medium</td></tr>
+<tr><td colspan="4"></td></tr><tr><td > name of the autotest class:</td><td  colspan = "3" >MyDrinkShop.Product.AddProductTest2</td></tr>
+<tr><td > name of the test method:</td><td  colspan = "3" >MyDrinkShop.Product.AddProductTest#invalidECPTest</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Requirements</span><td colspan="3">orir3584_F01:  AdaugareProdus [Version : 1]<br /></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Keywords:</span></td><td colspan="3">&nbsp;None<br/></td></tr>
+</table>
+</div>
+<a name="toc_tc28880"></a><p>&nbsp;</p><div> <table class="tc" width="90%" ><tr><th colspan="4">Test Case P232-7: AddProductTestCaseBVA1&nbsp;<span style="font-size: 80%;">[Version  : 1]</span></th></tr>
+<tr><td width="20%" valign="top"><span class="label">Author:</span></td><td colspan="3">orir3584</td></tr>
+<tr><td colspan="4"><span class="label">Summary:</span><br /><p>[BVA] Test Case 1: Adaugarea cu succes a unui produs la pretul minim valid -&gt; limita inferioara valida<br />
+exemplu valid: (102, &quot;Matcha Latte&quot;, <strong>5.0</strong>, MILK_COFFEE, PLANT_BASED)<br />
+<br />
+Rezultat asteptat -&gt; Succes (Produsul este adaugat cu succes in stoc)</p>
+</td></tr><tr><td colspan="4"><span class="label">Preconditions:</span><br /><p>ID -&gt; numar intreg, 1-9999<br />
+Nume -&gt; string, 3-100 caractere<br />
+Pret -&gt; numar real, <strong>5.0</strong>-45.0<br />
+Categorie -&gt; o categorie din CategorieBautura = { CLASSIC_COFFEE, MILK_COFFEE, SPECIAL_COFFEE, ICED_COFFEE, TEA, BUBBLE_TEA, JUICE, SMOOTHIE, ALL }<br />
+Tip -&gt; un tip din TipBautura = { BASIC, DAIRY, LACTOSE_FREE, WATER_BASED, PLANT_BASED, POWDER, ALL }</p>
+</td></tr><tr><td width="20%" valign="top"><span class="label">Execution type:</span></td><td colspan="3">Automated</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Estimated exec. duration (min):</span></td><td colspan="3"></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Importance:</span></td><td colspan="3">Medium</td></tr>
+<tr><td colspan="4"></td></tr><tr><td > name of the autotest class:</td><td  colspan = "3" >MyDrinkShop.Product.AddProductTest3</td></tr>
+<tr><td > name of the test method:</td><td  colspan = "3" >MyDrinkShop.Product.AddProductTest#validBVATest</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Requirements</span><td colspan="3">orir3584_F01:  AdaugareProdus [Version : 1]<br /></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Keywords:</span></td><td colspan="3">&nbsp;None<br/></td></tr>
+</table>
+</div>
+<a name="toc_tc28882"></a><p>&nbsp;</p><div> <table class="tc" width="90%" ><tr><th colspan="4">Test Case P232-8: AddProductTestCaseBVA2&nbsp;<span style="font-size: 80%;">[Version  : 1]</span></th></tr>
+<tr><td width="20%" valign="top"><span class="label">Author:</span></td><td colspan="3">orir3584</td></tr>
+<tr><td colspan="4"><span class="label">Summary:</span><br /><p>[BVA] Test Case 2: Adaugarea esuata a unui produs la pretul sub limita minima -&gt; limita inferioara invalida<br />
+exemplu invalid: (103, &quot;Matcha Latte&quot;, <strong>4.99</strong>, MILK_COFFEE, PLANT_BASED)<br />
+<br />
+Rezultat asteptat -&gt; Eroare (Produsul nu este adaugat; pretul trebuie sa fie cel putin 5.0)</p>
+</td></tr><tr><td colspan="4"><span class="label">Preconditions:</span><br /><p>Datele de intrare a atributelor unui produs nu sunt valabile / conforme domeniului lor de definitie</p>
+</td></tr><tr><td width="20%" valign="top"><span class="label">Execution type:</span></td><td colspan="3">Automated</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Estimated exec. duration (min):</span></td><td colspan="3"></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Importance:</span></td><td colspan="3">Medium</td></tr>
+<tr><td colspan="4"></td></tr><tr><td > name of the autotest class:</td><td  colspan = "3" >MyDrinkShop.Product.AddProductTest4</td></tr>
+<tr><td > name of the test method:</td><td  colspan = "3" >MyDrinkShop.Product.AddProductTest#invalidBVATest</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Requirements</span><td colspan="3">orir3584_F01:  AdaugareProdus [Version : 1]<br /></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Keywords:</span></td><td colspan="3">&nbsp;None<br/></td></tr>
+</table>
+</div>
+
+</body>
+</html>
