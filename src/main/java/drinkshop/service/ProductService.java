@@ -48,12 +48,18 @@ public class ProductService {
     }
 
     public List<Product> filterByCategorie(CategorieBautura categorie) {
+        List<Product> allProducts = getAllProducts();
+
+        if (allProducts.isEmpty()) {
+            return new ArrayList<>();
+        }
+
         if (categorie == CategorieBautura.ALL) {
-            return getAllProducts();
+            return allProducts;
         }
 
         List<Product> filteredProducts = new ArrayList<>();
-        for (Product p : getAllProducts()) {
+        for (Product p : allProducts) {
             if (p.getCategorie() == categorie) {
                 filteredProducts.add(p);
             }
