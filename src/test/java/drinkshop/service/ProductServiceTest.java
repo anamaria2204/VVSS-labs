@@ -10,6 +10,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductServiceTest {
@@ -32,6 +34,10 @@ class ProductServiceTest {
     void tearDown() {
         repo = null;
         productService = null;
+    }
+
+    private Product validProduct(int id, String nume, double pret, CategorieBautura categorie, TipBautura tip) {
+        return new Product(id, nume, pret, categorie, tip);
     }
 
     @Test
@@ -146,5 +152,72 @@ class ProductServiceTest {
         productService.addProduct(p);
         assertEquals(p, productService.findById(1));
         assertNull(productService.findById(2));
+    }
+
+    // ---------------- WHITE-BOX for filterByCategorie ----------------
+    // SC/DC/CC + APC path P1: allProducts.isEmpty() == true
+    @Test
+    void filterByCategorie_emptyRepository_returnsEmptyList() {
+        List<Product> result = productService.filterByCategorie(CategorieBautura.JUICE);
+
+        assertTrue(result.isEmpty());
+    }
+
+    // SC/DC/CC + APC path P2: allProducts.isEmpty() == false, categorie == ALL == true
+    @Test
+    void filterByCategorie_allCategory_returnsAllProducts() {
+        Product p1 = validProduct(1, "Espresso", 10.0, CategorieBautura.CLASSIC_COFFEE, TipBautura.BASIC);
+        Product p2 = validProduct(2, "Suc Portocale", 12.0, CategorieBautura.JUICE, TipBautura.WATER_BASED);
+        productService.addProduct(p1);
+        productService.addProduct(p2);
+
+        List<Product> result = productService.filterByCategorie(CategorieBautura.ALL);
+
+        assertEquals(2, result.size());
+        assertTrue(result.contains(p1));
+        assertTrue(result.contains(p2));
+    }
+
+    // LC (1 iteratie) + APC path P3: loop intra o data, conditia interna true
+    @Test
+    void filterByCategorie_oneElement_matchingCategory_returnsThatElement() {
+        Product p1 = validProduct(1, "Limonada", 11.0, CategorieBautura.JUICE, TipBautura.WATER_BASED);
+        productService.addProduct(p1);
+
+        List<Product> result = productService.filterByCategorie(CategorieBautura.JUICE);
+
+        assertEquals(1, result.size());
+        assertEquals(p1, result.get(0));
+    }
+
+    // LC (>1 iteratii) + APC path P4/P5: conditia interna true si false in acelasi test
+    @Test
+    void filterByCategorie_multipleElements_mixedCategories_filtersOnlyRequestedCategory() {
+        Product p1 = validProduct(1, "Americano", 13.0, CategorieBautura.CLASSIC_COFFEE, TipBautura.WATER_BASED);
+        Product p2 = validProduct(2, "Smoothie Capsuni", 20.0, CategorieBautura.SMOOTHIE, TipBautura.PLANT_BASED);
+        Product p3 = validProduct(3, "Ceai Verde", 9.0, CategorieBautura.TEA, TipBautura.WATER_BASED);
+        productService.addProduct(p1);
+        productService.addProduct(p2);
+        productService.addProduct(p3);
+
+        List<Product> result = productService.filterByCategorie(CategorieBautura.SMOOTHIE);
+
+        assertEquals(1, result.size());
+        assertTrue(result.contains(p2));
+        assertFalse(result.contains(p1));
+        assertFalse(result.contains(p3));
+    }
+
+    // DC/CC: conditia interna false pe toate iteratiile
+    @Test
+    void filterByCategorie_noMatchingCategory_returnsEmptyList() {
+        Product p1 = validProduct(1, "Cappuccino", 15.0, CategorieBautura.MILK_COFFEE, TipBautura.DAIRY);
+        Product p2 = validProduct(2, "Ceai", 8.0, CategorieBautura.TEA, TipBautura.WATER_BASED);
+        productService.addProduct(p1);
+        productService.addProduct(p2);
+
+        List<Product> result = productService.filterByCategorie(CategorieBautura.JUICE);
+
+        assertTrue(result.isEmpty());
     }
 }
