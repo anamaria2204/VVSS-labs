@@ -11,10 +11,16 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final Repository<Integer, Product> productRepo;
-    private final ProductValidator validator = new ProductValidator();
+    private final ProductValidator validator;
 
     public ProductService(Repository<Integer, Product> productRepo) {
         this.productRepo = productRepo;
+        this.validator = new ProductValidator();
+    }
+
+    public ProductService(Repository<Integer, Product> productRepo, ProductValidator validator) {
+        this.productRepo = productRepo;
+        this.validator = validator;
     }
 
     public void addProduct(Product p) {
