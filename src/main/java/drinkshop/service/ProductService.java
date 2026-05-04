@@ -54,6 +54,10 @@ public class ProductService {
     }
 
     public List<Product> filterByCategorie(CategorieBautura categorie) {
+        if (categorie == null) {
+            throw new NullPointerException("Categoria nu poate fi null.");
+        }
+
         List<Product> allProducts = getAllProducts();
 
         if (allProducts.isEmpty()) {
