@@ -201,6 +201,18 @@ class ProductServiceTest {
         assertTrue(result.isEmpty());
     }
 
+    // F02_TC06: categorie null -> ramura neacoperita de cod (cod nu valideaza null)
+    // Testul documenting comportamentul actual: codul NU arunca NullPointerException
+    // deoarece foloseste == pentru comparatie enum; returneaza lista goala in loc.
+    // Testul va ESUA intentionat, indicand ca lipseste validarea pentru null.
+    @Test
+    void F02_TC06_filterByCategorie_nullCategory_throwsNullPointerException() {
+        Product p1 = validProduct(1, "Espresso", 10.0, CategorieBautura.CLASSIC_COFFEE, TipBautura.BASIC);
+        productService.addProduct(p1);
+
+        assertThrows(NullPointerException.class, () -> productService.filterByCategorie(null));
+    }
+
     // F02_TC05: P5 - mai multe iteratii, conditia interna false apoi true
     @Test
     void F02_TC05_filterByCategorie_multipleElements_filtersOnlyRequestedCategory() {
